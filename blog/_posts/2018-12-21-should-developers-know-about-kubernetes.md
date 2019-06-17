@@ -1,10 +1,11 @@
 ---
 slug: should-developers-know-about-kubernetes
 date: 2018-12-21T17:18:07.059Z
-author: jazzdan
+author: dmiller
 layout: blog
 title: "Should Developers Know about Kubernetes?"
-subtitle: "Intrepid Windmill employees hanging out with various Kubernetes mascots"
+image: featuredImage.jpeg
+image_caption: "Intrepid Windmill employees hanging out with various Kubernetes mascots"
 tags:
   - kubernetes
   - devops

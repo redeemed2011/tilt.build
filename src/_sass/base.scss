@@ -84,10 +84,6 @@ figure > img {
   display: block;
 }
 
-figcaption {
-  font-size: $small-font-size;
-}
-
 
 
 /**
@@ -165,10 +161,6 @@ code {
 }
 
 code {
-  padding: 1px 5px;
-}
-
-.wrapper--home code {
   border: none;
   background-color: transparent;
   padding: 0;
@@ -257,4 +249,7 @@ svg {
 
 input, textarea {
   box-sizing: border-box;
+}
+hr {
+  margin: $spacing-unit 0;
 }

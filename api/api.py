@@ -60,20 +60,24 @@ def container_restart() -> LiveUpdateStep:
   """
   pass
 
-def docker_build(ref: str, context: str, build_args: Dict[str, str] = {}, dockerfile: str = "Dockerfile", dockerfile_contents: Union[str, Blob] = "", live_update: List[LiveUpdateStep]=[]) -> None:
+def docker_build(ref: str, context: str, build_args: Dict[str, str] = {}, dockerfile: str = "Dockerfile", dockerfile_contents: Union[str, Blob] = "", live_update: List[LiveUpdateStep]=[], ignore: Union[str, List[str]] = [], only: Union[str, List[str]] = []) -> None:
   """Builds a docker image.
 
   Note that you can't set both the `dockerfile` and `dockerfile_contents` arguments (will throw an error).
 
   Example: ``docker_build('myregistry/myproj/backend', '/path/to/code')`` is roughly equivalent to the call ``docker build /path/to/code -t myregistry/myproj/backend``
 
+  Note: If you're using the the `ignore` and `only` parameters to do context filtering and you have tricky cases, reach out to us. The implementation is complex and there might be edge cases.
+
   Args:
     ref: name for this image (e.g. 'myproj/backend' or 'myregistry/myproj/backend'). If this image will be used in a k8s resource(s), this ref must match the ``spec.container.image`` param for that resource(s).
     context: path to use as the Docker build context.
-    build_args: build-time variables that are accessed like regular environment variables in the ``RUN`` instruction of the Dockerfile. See `the Docker Build Arg documentation <https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg>`_
-    dockerfile: path to the Dockerfile to build
-    dockerfile_contents: raw contents of the Dockerfile to use for this build
+    build_args: build-time variables that are accessed like regular environment variables in the ``RUN`` instruction of the Dockerfile. See `the Docker Build Arg documentation <https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg>`_.
+    dockerfile: path to the Dockerfile to build.
+    dockerfile_contents: raw contents of the Dockerfile to use for this build.
     live_update: set of steps for updating a running container (see `Live Update documentation <live_update_reference.html>`_).
+    ignore: set of file patterns that will be ignored. Ignored files will not trigger builds and will not be included in images. Follows the `dockerignore syntax <https://docs.docker.com/engine/reference/builder/#dockerignore-file>`_.
+    only: set of file patterns that will cause a build to be triggered. All other changes will be ignored. Inverse of ignore parameter. Follows the `dockerignore syntax <https://docs.docker.com/engine/reference/builder/#dockerignore-file>`_. Note that ignores take precedence over this parameter.
   """
   pass
 
@@ -108,7 +112,7 @@ class FastBuild:
 def fast_build(img_name: str, dockerfile_path: str, entrypoint: str = "") -> FastBuild:
   """Initiates a docker image build that supports ``add`` s and ``run`` s, and that uses a cache for subsequent builds.
 
-    See the `fast build documentation <https://docs.tilt.dev/fast_build.html>`_.
+  **Note**: this is a deprecated feature. For the fast building of the future, check out our `LiveUpdate tutorial </live_update_tutorial.html>`_ and `reference documention </live_update_reference.html>`_.
   """
   pass
 
@@ -141,9 +145,44 @@ def k8s_yaml(yaml: Union[str, List[str], Blob]) -> None:
   """
   pass
 
+
+class TriggerMode:
+  """A set of constants that describe how Tilt triggers an update for a resource.
+  Possible values are:
+
+  - ``TRIGGER_MODE_AUTO``: the default. When Tilt detects a change to files or config files associated with this resource, it triggers an update.
+
+  - ``TRIGGER_MODE_MANUAL``: user manually triggers update for dirty resources (i.e. resources with pending changes) via a button in the UI. (Note that the initial build always occurs automatically.)
+
+  The default trigger mode for all manifests may be set with the top-level function :meth:`trigger_mode`
+  (if not set, defaults to ``TRIGGER_MODE_AUTO``), and per-resource with :meth:`k8s_resource`.
+
+  See also: `Manual Update Control documentation <manual_update_control.html>`_
+  """
+  def __init__(self):
+    pass
+
+def trigger_mode(trigger_mode: TriggerMode):
+  """Sets the default :class:`TriggerMode` for resources in this Tiltfile.
+  (Trigger mode may still be adjusted per-resource with :meth:`k8s_resource`.)
+
+  If this function is not invoked, the default trigger mode for all resources is ``TRIGGER MODE AUTO``.
+
+  See also: `Manual Update Control documentation <manual_update_control.html>`_
+
+  Args:
+    trigger_mode: may be one of ``TRIGGER_MODE_AUTO`` or ``TRIGGER_MODE_MANUAL``
+
+  """
+
+# Hack so this appears correctly in the function signature: https://stackoverflow.com/a/50193319/4628866
+TRIGGER_MODE_AUTO = type('_sentinel', (TriggerMode,),
+                 {'__repr__': lambda self: 'TRIGGER_MODE_AUTO'})()
+
 def k8s_resource(workload: str, new_name: str = "",
                  port_forwards: Union[str, int, List[int]] = [],
-                 extra_pod_selectors: Union[Dict[str, str], List[Dict[str, str]]] = []) -> None:
+                 extra_pod_selectors: Union[Dict[str, str], List[Dict[str, str]]] = [],
+                 trigger_mode: TriggerMode = TRIGGER_MODE_AUTO) -> None:
   """Configures a kubernetes resources
 
   This description apply to `k8s_resource_assembly_version` 2.
@@ -172,6 +211,8 @@ def k8s_resource(workload: str, new_name: str = "",
       will be associated with this resource if it has all of the labels in at
       least one of the entries specified (but still also if it meets any of
       Tilt's usual mechanisms).
+    trigger_mode: one of ``TRIGGER_MODE_AUTO`` or ``TRIGGER_MODE_MANUAL``. For more info, see the
+      `Manual Update Control docs <manual_update_control.html>`_.
   """
 
   pass
