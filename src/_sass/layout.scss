@@ -175,6 +175,10 @@ li {
   line-height: 18px;
   letter-spacing: 0.02em;
 }
+.blogCredit--mobile {
+  float: none;
+  width: 100%;
+}
 .blogCredit-img {
   width: 40px;
   height: 32px;
@@ -187,6 +191,143 @@ li {
 }
 .blogCredit-author {
   color: $color-red;
+}
+.postPreview {
+  margin-bottom: 1.5 * $spacing-unit;
+}
+.postPreview-text {
+  display: block;
+  width: $post-preview-text-width;
+  height: $post-preview-text-height;
+
+  @include docs-mobile {
+    width: 100%;
+    height: auto;
+  }
+}
+.postPreview-imageLink {
+  margin-bottom: $spacing-unit * 0.5;
+}
+.postPreview--related .postPreview-imageLink {
+  margin-bottom: 0;
+}
+.postPreview-imageLink:hover {
+  background: transparent;
+  color: inherit;
+}
+.blogContent .postPreview-title {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 29px;
+  margin-bottom: $spacing-unit / 4;
+}
+.postPreview-description {
+  display: block;
+  margin-bottom: $spacing-unit / 4;
+  height: $body-line-height * 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.postPreview--hero .postPreview-description {
+  height: $body-line-height * 6;
+}
+.postPreview-image {
+  display: block;
+  width: $post-preview-image-width;
+  height: $post-preview-image-height;
+  margin-right: $spacing-unit;
+  object-fit: cover;
+
+  @include docs-mobile {
+    width: 100%;
+  }
+}
+.postPreview--containImage .postPreview-image {
+  object-fit: contain;
+}
+.postPreview--hero .postPreview-text {
+  width: $hero-post-text-width;
+  height: $hero-post-text-height;
+
+  @include docs-mobile {
+    width: 100%;
+    height: auto;
+  }
+}
+.postPreview--hero .postPreview-image {
+  width: $hero-post-image-width;
+  height: $hero-post-image-height;
+
+  @include docs-mobile {
+    width: 100%;
+  }
+}
+.row.postPreview--related {
+  flex-wrap: nowrap;
+
+  @include mobile {
+    margin-bottom: $spacing-unit;
+  }
+}
+.postPreview--related .postPreview-text {
+  font-size: 14px;
+  line-height: 18px;
+  width: $related-post-text-width;
+  height: $related-post-text-height;
+  flex-shrink: 1;
+
+  @include mobile {
+    width: auto;
+    height: auto;
+    align-self: center;
+  }
+}
+.postPreview--related .postPreview-description {
+  height: 18px * 5;
+
+  @include mobile {
+    display: none;
+  }
+}
+.postPreview--related .postPreview-title {
+  font-family: $body-font-family;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 700;
+  margin-bottom: $spacing-unit / 4;
+
+  @include mobile {
+    font-size: 24px;
+    line-height: 29px;
+  }
+}
+.postPreview--related .postPreview-imageLink {
+  margin-right: $spacing-unit / 2;
+  flex-shrink: 0;
+}
+.postPreview--related .postPreview-image {
+  width: $related-post-image-width;
+  height: $related-post-image-height;
+  margin-right: $spacing-unit / 2;
+}
+.postPreview-credit {
+  display: block;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.02em;
+}
+.postPreview--related .postPreview-credit {
+  @include mobile {
+    display: none;
+  }
+}
+.postPreview-creditImg {
+  width: 20px;
+  height: 16px;
+  float: left;
+  margin-right: $spacing-unit / 8;
+  object-fit: cover;
 }
 
 h1, .sidebar h2, h2.section {
@@ -217,6 +358,7 @@ h2 a:hover {
   color: $color-grey-dark;
   background-color: transparent;
 }
+
 
 h2, .docsContent h1 {
   font-family: $header-font-family;
@@ -291,6 +433,9 @@ h3 > .permalink:hover {
 h3:hover > .permalink {
   opacity: 1;
 }
+h3.relatedHeader {
+  font-size: 32px;
+}
 .permalink:hover {
   color: $text-color;
   background-color: transparent;
@@ -308,6 +453,8 @@ h3:hover > .permalink {
 }
 .blogBody > h3 {
   font-size: 22px;
+  line-height: 28px;
+  margin-bottom: $spacing-unit / 8;
 }
 .blogBody > h1,
 .blogBody > h2,
@@ -428,9 +575,28 @@ label, .formItem-label {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
 .row--flexStart {
   justify-content: flex-start;
+}
+.row--nowrap {
+  flex-wrap: nowrap;
+}
+
+.col--blogHeader {
+  display: block;
+  width: $blog-header-col-width;
+  margin-right: $spacing-unit;
+}
+.col--blogHeader > h2 {
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: $spacing-unit / 4;
+}
+.col--blogDescription {
+  display: block;
+  width: $blog-description-col-width;
+  margin-right: $spacing-unit;
 }
 
 .col-1of4 {
@@ -657,6 +823,29 @@ button.svgButton, button.brandButton {
   width: 40px;
   height: 80px;
 }
+.brandBox--cta {
+  padding: 0;
+}
+.brandBox--cta .ctaSubscribe-text {
+  padding: $spacing-unit * 0.75 $spacing-unit;
+}
+.brandBox--cta .brandBox-right {
+  flex-grow: 0.5;
+  visibility: hidden;
+
+  @include docs-mobile {
+    visibility: visible;
+    flex-grow: 0;
+  }
+}
+.ctaSubscribe-mailbox {
+  @include docs-mobile {
+    display: none;
+  }
+}
+.ctaSubscribe-mailbox > svg {
+  height: 100%;
+}
 
 .editOnGitHub {
   font-family: $chrome-font-family;
@@ -775,7 +964,9 @@ h4 .fillStd {
 .u-margin1_5 {
   margin: $spacing-unit * 1.5 !important;
 }
-
+.u-marginLeft0_25 {
+  margin-left: $spacing-unit * 0.25 !important;
+}
 .u-marginRight0_5 {
   margin-right: $spacing-unit * 0.5 !important;
 }
@@ -831,7 +1022,8 @@ h4 .fillStd {
   margin-top: $spacing-unit * 0.5 !important;
 }
 
-.u-marginTopUnit {
+.u-marginTopUnit,
+.u-marginTop1 {
   margin-top: $spacing-unit !important;
 }
 
@@ -847,18 +1039,25 @@ h4 .fillStd {
   margin-top: $spacing-unit * 2 !important;
 }
 
+.u-marginTopNeg1 {
+  margin-top: $spacing-unit * -1 !important;
+}
+
 .u-marginBottomUnitOnMobile {
   @include mobile {
     margin-bottom: $spacing-unit !important;
   }
 }
-
+.u-marginBottom0OnMobile {
+  @include mobile {
+    margin-bottom: 0 !important;
+  }
+}
 .u-marginBottom0_75OnMobile {
   @include mobile {
     margin-bottom: $spacing-unit * 0.75 !important;
   }
 }
-
 .u-marginBottom1_75OnMobile {
   @include mobile {
     margin-bottom: $spacing-unit * 1.75 !important;
@@ -978,14 +1177,21 @@ img.no-shadow {
   }
 }
 
-.ctaSubscribe--blog .ctaSubscribe-header {
+.ctaSubscribe--blog .ctaSubscribe-header,
+.ctaSubscribe--blogList .ctaSubscribe-header {
   font-size: 26px;
   font-weight: 700;
   color: $color-grey-dark;
   line-height: 31px;
 }
+.ctaSubscribe--blogList .ctaSubscribe-header {
+  margin-bottom: $spacing-unit / 2;
+}
 .ctaSubscribe--blog .ctaSubscribe-label {
   font-weight: 300;
+}
+.ctaSubscribe-text {
+  width: $blog-cta-text-width;
 }
 .ctaSubscribe-formItem {
   display: flex;
@@ -1016,6 +1222,7 @@ img.no-shadow {
 .ctaSubscribe--blog .ctaSubscribe-formItem > input {
   background-color: $color-grey-lightest;
 }
+
 .formItem {
   display: block;
   position: relative;

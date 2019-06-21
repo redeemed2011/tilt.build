@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tilt-site
+spec:
+  selector:
+    matchLabels:
+      app: tilt-site
+  template:
+    metadata:
+      labels:
+        app: tilt-site
+    spec:
+      containers:
+      - name: tilt-site
+        image: tilt-site
+        ports:
+        - containerPort: 4000
+          name: http
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          exec:
+            command:
+              - ./healthcheck.sh
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docs-site
+spec:
+  selector:
+    matchLabels:
+      app: docs-site
+  template:
+    metadata:
+      labels:
+        app: docs-site
+    spec:
+      containers:
+      - name: docs-site
+        image: docs-site
+        ports:
+        - containerPort: 4000
+          name: http
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          exec:
+            command:
+              - ./healthcheck.sh
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-site
+spec:
+  selector:
+    matchLabels:
+      app: blog-site
+  template:
+    metadata:
+      labels:
+        app: blog-site
+    spec:
+      containers:
+      - name: blog-site
+        image: blog-site
+        ports:
+        - containerPort: 4000
+          name: http
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          exec:
+            command:
+              - ./healthcheck.sh

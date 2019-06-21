@@ -3,10 +3,12 @@ slug: tilt-v0-8-release
 date: 2019-04-30T16:03:34.743Z
 author: nick
 layout: blog
+canonical_url: "https://medium.com/windmill-engineering/tilt-v0-8-release-57d47beb38b6"
 title: "Tilt v0.8 Release!"
 subtitle: "New Logs View, Live Update, Bazel Support, and Improved Resource Splitting"
 images:
   - featuredImage.gif
+image_type: "contain"
 tags:
   - docker
   - kubernetes
